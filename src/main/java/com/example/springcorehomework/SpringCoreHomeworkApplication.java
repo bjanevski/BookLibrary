@@ -2,9 +2,13 @@ package com.example.springcorehomework;
 
 import model.Author;
 import model.Book;
+import org.hibernate.id.Configurable;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import service.AuthorService;
+import service.BookService;
 
 import java.util.List;
 
@@ -12,7 +16,14 @@ import java.util.List;
 public class SpringCoreHomeworkApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringCoreHomeworkApplication.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(SpringCoreHomeworkApplication.class, args);
+
+        BookService bookService = context.getBean(BookService.class);
+        AuthorService authorService = context.getBean(AuthorService.class);
+
+        List<Author> authors = authorService.getAllAuthors();
+        List<Book> books = bookService.getAllBooks();
+        List<Book> booksByAuthor = bookService.getBooksByAuthor(authors.get(0));
     }
 
     @Override
