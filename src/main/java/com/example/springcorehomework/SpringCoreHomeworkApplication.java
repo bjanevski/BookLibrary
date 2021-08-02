@@ -5,6 +5,9 @@ import model.Book;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import service.AuthorService;
+import service.BookService;
 
 import java.util.List;
 
@@ -12,7 +15,13 @@ import java.util.List;
 public class SpringCoreHomeworkApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringCoreHomeworkApplication.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(SpringCoreHomeworkApplication.class, args);
+
+        BookService bookService = context.getBean(BookService.class);
+        bookService.getAllBooks();
+        AuthorService authorService = context.getBean(AuthorService.class);
+        authorService.getAllAuthors();
+        bookService.getBooksByAuthor(authorService.getAllAuthors().get(0));
     }
 
     @Override
